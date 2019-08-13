@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import api from '../../services/api';
-import { Loading, Owner, IssueList, IssueState, ButtonState } from './styles';
+import {
+  Loading,
+  Owner,
+  IssueList,
+  IssueState,
+  ButtonState,
+  ButtonPage,
+  PageChoise,
+} from './styles';
 
 import Container from '../../components/Container';
 
@@ -60,8 +68,25 @@ export default class Repository extends Component {
     this.setState({ issues: response.data, issueState: e });
   };
 
+  handlePage = async e => {
+    const { repository, page, issueState } = this.state;
+
+    const response = await api.get(`/repos/${repository.full_name}/issues`, {
+      params: {
+        state: issueState,
+        per_page: 5,
+        page: e === 'next' ? page + 1 : page - 1,
+      },
+    });
+
+    this.setState({
+      issues: response.data,
+      page: e === 'next' ? page + 1 : page - 1,
+    });
+  };
+
   render() {
-    const { repository, issues, loading, issueState } = this.state;
+    const { repository, issues, loading, issueState, page } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -112,6 +137,20 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <PageChoise>
+          <ButtonPage
+            type="button"
+            value="Anterior"
+            onClick={() => this.handlePage('back')}
+            disabled={page === 0}
+          />
+
+          <ButtonPage
+            type="button"
+            value="Próxima"
+            onClick={() => this.handlePage('next')}
+          />
+        </PageChoise>
       </Container>
     );
   }

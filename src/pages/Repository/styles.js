@@ -51,7 +51,17 @@ export const IssueState = styled.div`
 
 export const ButtonState = styled.input`
   margin: 3px;
-  background-color: ${props => props.issueState === props.value && '#7159c1'};
+  background-color: #ffffff;
+  font-family: Arial;
+  color: ${props => (props.issueState === props.value ? '#7159c1' : '#000')};
+  font-size: 14px;
+  padding: 0px 0px 0px 0px;
+  text-decoration: none;
+  border: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const IssueList = styled.ul`
@@ -111,4 +121,31 @@ export const IssueList = styled.ul`
       }
     }
   }
+`;
+
+export const ButtonPage = styled.input`
+  background-color: #ffffff;
+  font-family: Arial;
+  color: #7159c1;
+  font-size: 14px;
+  padding: 0px 0px 0px 0px;
+  text-decoration: none;
+  border: none;
+  margin: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;
+
+export const PageChoise = styled.footer`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5px;
 `;
